@@ -1,0 +1,135 @@
+1. Donggyu Kim(DK)
+
+2.
+Code I wrote:
+int main(){
+    int arr[] = {-2, 19, 80, -47, 80, 80, -2, 19, 19};  
+    int* start = arr;
+    int* end = arr+9;
+
+    ostream_iterator<int> out_it(cout, " ");
+    copy(start, end, out_it);
+}
+Output:
+[donggyukim@linuxlab002 studio18]$ ./studio18 
+-2 19 80 -47 80 80 -2 19 19
+
+3. 
+Code I wrote:
+int main(){
+    int arr[] = {-2, 19, 80, -47, 80, 80, -2, 19, 19};  
+    int* start = arr;
+    int* end = arr+9;
+
+    vector<int> vec;
+    back_insert_iterator<vector<int> > back_it (vec);
+    copy(start, end, back_it);
+
+     for (vector<int>::iterator it = vec.begin(); it!= vec.end(); ++it )
+        cout << ' ' << *it;
+}
+
+Output:
+[donggyukim@linuxlab002 studio18]$ ./studio18 
+ -2 19 80 -47 80 80 -2 19 19
+
+4. 
+Code I wrote:
+int main(){
+    int arr[] = {-2, 19, 80, -47, 80, 80, -2, 19, 19};  
+    int* start = arr;
+    int* end = arr+9;
+   
+    ostream_iterator<int> out_it(cout, " ");
+    sort(start, end);
+    copy(start, end, out_it);
+}
+
+Output:
+[donggyukim@linuxlab002 studio18]$ ./studio18 
+-47 -2 -2 19 19 19 80 80 80
+
+5.
+Code I wrote :
+int main(){
+
+
+    //#2.
+    int arr[] = {-2, 19, 80, -47, 80, 80, -2, 19, 19};  
+    int* start = arr;
+    int* end = arr+9;
+   
+    //#5
+    sort(start, end);
+    
+    
+    while(start < end - 1){
+        auto it = adjacent_find(start, end);
+        while(*it == *(it+1) ){
+            cout << *it << ' ';
+            it++;
+            
+        }
+        cout << *it;
+        cout << endl;
+        start = it;
+    }
+}
+
+Output: 
+[donggyukim@linuxlab002 studio18]$ ./studio18 
+-2 -2
+19 19 19
+80 80 80
+
+6.
+Code I wrote:
+int main(){
+
+
+    //#2.
+    int arr[] = {-2, 19, 80, -47, 80, 80, -2, 19, 19};  
+    int* start = arr;
+    int* end = arr+9;
+   
+    
+    ostream_iterator<int> out_it(cout, " ");
+    sort(start, end, greater<int>());
+    copy(start, end, out_it);
+}
+
+Output:
+[donggyukim@linuxlab002 studio18]$ ./studio18 
+80 80 80 19 19 19 -2 -2 -47
+
+7.
+Code I wrote:
+
+int main(){
+    int arr[] = {-2, 19, 80, -47, 80, 80, -2, 19, 19};  
+    int* start = arr;
+    int* end = arr+9;
+
+    sort(start, end, greater<int>());
+
+    cout << "median : " << *(start+ (int)((end-start)/2)) << endl;
+    cout << "mean : " << accumulate(start, end, 0)/(end-start) << endl;
+    int max = -1;
+    int mode = 0;
+    while(start != end){
+        int counter = count(start, end, *start);
+        if(max < counter){
+            max = counter;
+            mode = *start;
+        }
+        start++;
+    }
+    cout << "mode : " << mode << endl;
+}
+
+Output:
+[donggyukim@linuxlab002 studio18]$ ./studio18 make
+median : 19
+mean : 27
+mode : 80
+   

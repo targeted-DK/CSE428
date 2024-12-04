@@ -1,0 +1,111 @@
+1. Donggyu Kim(437008)
+
+2.
+class BaseClass {
+    private : 
+        static std::size_t count;
+        std::size_t id;
+    
+    public: 
+        BaseClass();  
+        BaseClass(const BaseClass& other); 
+        ~BaseClass();  
+
+};
+
+using namespace std;
+
+size_t BaseClass::count = 0;
+
+BaseClass::BaseClass() {
+    id = count++;  
+    cout << "Default constructor. id: " << id << ", Address: " << this << endl;
+}
+
+BaseClass::BaseClass(const BaseClass& other) {
+    id = other.id;
+    count++;  // Increment objectCount
+    cout << "Copy constructor. id: " << id << ", Address: " << this << endl;
+}
+
+BaseClass::~BaseClass() {
+    cout << "Destructor. id: " << id << ", Address: " << this << endl;
+}
+
+
+int main(){
+
+    BaseClass b;
+    BaseClass bc = BaseClass(b);
+    int SUCCESS = 0;
+
+    return SUCCESS;
+}
+
+3.
+[donggyukim@linuxlab002 studio10]$ ./studio10
+Default constructor. id: 0, Address: 0x1c27c28
+Default constructor. id: 1, Address: 0x1c27c30
+Default constructor. id: 2, Address: 0x1c27c38
+Destructor. id: 2, Address: 0x1c27c38
+Destructor. id: 1, Address: 0x1c27c30
+Destructor. id: 0, Address: 0x1c27c28
+
+[donggyukim@linuxlab002 studio10]$ ./studio10
+Default constructor. id: 0, Address: 0x1afec28
+Default constructor. id: 1, Address: 0x1afec30
+Default constructor. id: 2, Address: 0x1afec38
+Destructor. id: 0, Address: 0x1afec28
+*** Error in `./studio10': munmap_chunk(): invalid pointer: 0x0000000001afec28 ***
+======= Backtrace: =========
+/lib64/libc.so.6(+0x7f474)[0x2ab3660d7474]
+./studio10[0x400ab0]
+/lib64/libc.so.6(__libc_start_main+0xf5)[0x2ab36607a555]
+./studio10[0x400999]
+
+So very long error message occurs when using delete without [] syntax. Since using delete without [] on an array object created using 'new' does not fully deletes the entire array,
+this causes potential memory leak.
+
+4. 
+int main(){
+    shared_ptr<BaseClass> p1 = make_shared<BaseClass>();
+    shared_ptr<BaseClass> p2 = make_shared<BaseClass>(*p1);
+
+
+    int SUCCESS = 0;
+
+    return SUCCESS;
+}
+
+[donggyukim@linuxlab002 studio10]$ ./studio10
+Default constructor. id: 0, Address: 0x1998c30
+Copy constructor. id: 0, Address: 0x1998c50
+Destructor. id: 0, Address: 0x1998c50
+Destructor. id: 0, Address: 0x1998c30
+
+
+5.
+[donggyukim@linuxlab008 studio10]$ ./studio10
+Default constructor. id: 0, Address: 0xc3bc30
+Copy constructor. id: 0, Address: 0xc3bc50
+Display function. ID: 0, Address: 0xc3bc30
+Destructor. id: 0, Address: 0xc3bc50
+Destructor. id: 0, Address: 0xc3bc30
+
+6.
+[donggyukim@linuxlab008 studio10]$ ./studio10
+Default constructor. id: 0, Address: 0x2217c30
+Copy constructor. id: 0, Address: 0x2217c50
+Assigning p2 to p1...
+Destructor. id: 0, Address: 0x2217c50
+Assigned p2 to p1.
+Display function. ID: 0, Address: 0x2217c30
+Destructor. id: 0, Address: 0x2217c30
+
+They are all pointing to a same object, p1, therefore the static member variable of the class 'BaseClass' does not increment.
+
+7.
+[donggyukim@linuxlab008 studio10]$ ./studio10
+Default constructor. id: 0, Address: 0x1b8dc20
+Display function. id: 0, Address: 0x1b8dc20
+Destructor. id: 0, Address: 0x1b8dc20

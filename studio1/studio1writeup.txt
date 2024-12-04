@@ -1,0 +1,130 @@
+studio 1 
+1. Donggyu Kim(437008)
+
+2.
+#include <iostream>
+#include "header.h"
+
+using namespace std;
+
+int main(){
+
+    Test a = Test(1);
+    Test b = Test(2);
+
+    cout << a.x << " " << b.x << endl;
+
+    return 0;
+}
+
+[donggyukim@linuxlab006 studio1]$ ./studio1
+1 2
+
+
+3.  
+
+[donggyukim@linuxlab006 studio1]$ make
+g++ -o studio1 -DUNIX   -Wall -W -g -std=c++17 -DTEMPLATE_HEADERS_INCLUDE_SOURCE studio1.cpp 
+studio1.cpp: In function ‘int main()’:
+studio1.cpp:8:20: error: use of deleted function ‘Test::~Test()’
+     Test a = Test(1);
+                    ^
+In file included from studio1.cpp:2:
+header.h:12:9: note: declared here
+         ~Test() = delete;
+         ^
+studio1.cpp:8:20: error: use of deleted function ‘Test::~Test()’
+     Test a = Test(1);
+                    ^
+In file included from studio1.cpp:2:
+header.h:12:9: note: declared here
+         ~Test() = delete;
+         ^
+studio1.cpp:9:20: error: use of deleted function ‘Test::~Test()’
+     Test b = Test(2);
+                    ^
+In file included from studio1.cpp:2:
+header.h:12:9: note: declared here
+         ~Test() = delete;
+         ^
+studio1.cpp:9:20: error: use of deleted function ‘Test::~Test()’
+     Test b = Test(2);
+                    ^
+In file included from studio1.cpp:2:
+header.h:12:9: note: declared here
+         ~Test() = delete;
+         ^
+make: *** [studio1] Error 1
+
+Reason : It seems that suppressing a destructor does not work as stack calls destructor.
+
+4.  
+Output : 
+[donggyukim@linuxlab006 studio1]$ ./studio1
+1 2
+2 1
+
+5.  
+Test() = delete;
+// ~Test() = delete;
+// Test &operator=(const Test&) = delete;
+
+Only copy constructor with delete syntax compiles when commented out. 
+Destructor is required for all struct objects, therefore it cannot be deleted. For copy assignment operator case, swap() explicitly uses the struct’s copy assignment operator, therefore causes an error when compiler tries to use deleted copy assignment operator.
+
+6.  
+Created new ‘templates.cpp’ file
+#include <iostream>
+#include "header.h"
+
+template<typename T = int> 
+struct Foo {
+    T x;
+    public:
+        Foo(T x1 = 0) : x(x1){};
+};
+
+Declaration in header.h:
+
+template<typename T = int> 
+struct Foo {
+    T x;
+    public:
+        Foo(T x1 = 0);
+};
+
+
+Added this line in Makefile:
+#               Source files containing only template class method definitions
+TMPL_SRCS       = templates.cpp
+
+Output : 
+[donggyukim@shell studio1]$ ./studio1
+1 2
+2 1
+
+7. 
+
+#include <iostream>
+using namespace std;
+
+template<typename T>
+class Foo {
+    private : 
+        T x;
+    
+    public : 
+    Foo(T x1 = 0);
+
+    friend ostream& operator<<<T>(ostream& os, const Foo<T>& f);
+};
+
+template<typename T>
+ostream& operator<<(ostream& os, const Foo<T>& f);
+
+
+
+
+
+
+

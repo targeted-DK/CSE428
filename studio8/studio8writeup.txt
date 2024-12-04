@@ -1,0 +1,121 @@
+1. Donggyu Kim(437008)
+
+2. 
+[donggyukim@linuxlab005 studio8]$ ./studio8
+BaseClass::BaseClass()
+BaseClass::BaseClass()
+DerivedClass::DerivedClass()
+DerivedClass::~DerivedClass()
+BaseClass::~BaseClass()
+BaseClass::~BaseClass()
+
+When creating an object using DerivedClass, it calls the constructor for a base class first, which needs to be destructed fater derivedclass object is destroyed.
+
+3.
+[donggyukim@linuxlab005 studio8]$ ./studio8
+BaseClass::BaseClass() : created by  BaseClass a; BaseClass &baseRef1 = a
+BaseClass::BaseClass() : created by DerivedClass b; BaseClass &baseRef2 = b
+DerivedClass::DerivedClass() : created by DerivedClass b;  DerivedClass &derivedRef = b
+This function is test() and is included in BaseClass. : output by baseRef1.test();  
+This function is test() and is included in BaseClass. : output by   baseRef2.test();  
+This function is test() and is included in DerivedClass : output by    derivedRef.test();
+DerivedClass::~DerivedClass():  automatically destroyed when main ends;
+BaseClass::~BaseClass() : automatically destroyed when main ends;
+BaseClass::~BaseClass() :  automatically destroyed when main ends;
+
+
+4.
+[donggyukim@linuxlab005 studio8]$ ./studio8
+BaseClass::BaseClass()
+BaseClass::BaseClass()
+DerivedClass::DerivedClass()
+This function is test() and is included in BaseClass.
+This function is test() and is included in DerivedClass.
+This function is test() and is included in DerivedClass.
+DerivedClass::~DerivedClass()
+BaseClass::~BaseClass()
+BaseClass::~BaseClass()
+
+Only difference is that   baseRef2.test();  uses test() defined in DerivedClass, not BaseClass, because virtual expects to use definition defined in a derived class.
+
+5. 
+[donggyukim@linuxlab005 studio8]$ ./studio8
+BaseClass::BaseClass()
+BaseClass::BaseClass()
+DerivedClass::DerivedClass()
+This function is test() and is included in BaseClass.
+This function is test() and is included in DerivedClass.
+This function is test() and is included in DerivedClass.
+DerivedClass::~DerivedClass()
+BaseClass::~BaseClass()
+BaseClass::~BaseClass()
+
+Pointers behave as same as references, as pointers just point to references, so they should behave liks references.
+
+6.
+[donggyukim@linuxlab005 studio8]$ ./studio8
+BaseClass::BaseClass()
+BaseClass::BaseClass()
+DerivedClass::DerivedClass()
+This function is test() and is included in BaseClass.
+This function is test() and is included in DerivedClass.
+DerivedClass::~DerivedClass()
+BaseClass::~BaseClass()
+BaseClass::~BaseClass()
+
+7. 
+[donggyukim@linuxlab005 studio8]$ ./studio8
+BaseClass::BaseClass()
+BaseClass::BaseClass()
+BaseClass::BaseClass()
+DerivedClass::DerivedClass()
+This function is test() and is included in BaseClass.
+This function is test() and is included in BaseClass.
+This function is test() and is included in DerivedClass.
+
+Since we are dynamically allocating objects to pointer, each constructor creates independent classes. Therefore, for 2 baseclasses and 1 derivedclass, we get
+3 baseclass constructors and 1 derivedclass, and an extra baseclass constructor is called by the derivedclass.
+Since we did not call destructors, objects do not get destroyed and we get some memory leak.
+
+8. 
+warnings i got:
+main.cpp: In function ‘int main()’:
+main.cpp:43:11: warning: deleting object of polymorphic class type ‘BaseClass’ which has non-virtual destructor might cause undefined behavior [-Wdelete-non-virtual-dtor]
+    delete b1;
+           ^~
+main.cpp:44:11: warning: deleting object of polymorphic class type ‘BaseClass’ which has non-virtual destructor might cause undefined behavior [-Wdelete-non-virtual-dtor]
+    delete b2;
+           ^~
+main.cpp:45:11: warning: deleting object of polymorphic class type ‘DerivedClass’ which has non-virtual destructor might cause undefined behavior [-Wdelete-non-virtual-dtor]
+    delete d;
+[donggyukim@linuxlab002 studio8]$ ./studio8
+BaseClass::BaseClass()
+BaseClass::BaseClass()
+BaseClass::BaseClass()
+DerivedClass::DerivedClass()
+This function is test() and is included in BaseClass.
+This function is test() and is included in BaseClass.
+This function is test() and is included in DerivedClass.
+BaseClass::~BaseClass()
+BaseClass::~BaseClass()
+DerivedClass::~DerivedClass()
+BaseClass::~BaseClass()
+
+9.
+
+[donggyukim@linuxlab005 studio8]$ ./studio8
+BaseClass::BaseClass()
+BaseClass::BaseClass()
+BaseClass::BaseClass()
+DerivedClass::DerivedClass()
+This function is test() and is included in BaseClass.
+This function is test() and is included in BaseClass.
+This function is test() and is included in DerivedClass.
+BaseClass::~BaseClass()
+BaseClass::~BaseClass()
+DerivedClass::~DerivedClass()
+BaseClass::~BaseClass()
+
+destructor needs to be virtual because derivedClass destructor assures calling baseclass destructor.
+If base class destructor is not virtual, it will call only the base class's destructor and not the derived class's destructor. 
+This can cause memory leak if the derived class is dynamically allocated.

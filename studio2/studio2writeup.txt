@@ -1,0 +1,272 @@
+Studio2
+
+1. Donggyu Kim(437008)
+
+2.    
+Header.h:
+#include <iostream>
+#include <ostream>
+
+using namespace std;
+
+enum class Weekday {mon, tue, wed, thu, fri, sat, sun};
+ostream& operator<<(ostream& os, const Weekday& wkdy);
+
+studio2.cpp:
+#include <iostream>
+#include "header.h"
+
+using namespace std;
+
+ostream& operator<<(ostream& os, const Weekday& wkdy){
+
+    switch(wkdy){
+        case Weekday::mon:
+            os << "Monday" << " ";
+            break;
+
+        case Weekday::tue:
+            os << "Tuesday" << " ";
+            break;
+
+        case Weekday::wed:
+            os << "Wednesday" << " ";
+	    break;
+
+        case Weekday::thu:
+            os << "Thursday" << " ";
+           
+            break;
+        case Weekday::fri:
+            os << "Friday" << " ";
+           
+            break;
+        case Weekday::sat:
+            os << "Saturday" << " ";
+          
+            break;
+        case Weekday::sun:
+            os << "Sunday" << " ";
+            break;
+           
+    }
+    return os;
+}
+
+int main(){
+    Weekday test = Weekday::mon;
+
+    cout << test << endl;
+
+    return 0;
+}
+
+[donggyukim@linuxlab004 studio2]$ ./studio2
+Monday
+
+3.
+[donggyukim@shell studio2]$ ./studio2
+Monday Tuesday Wednesday Thursday Friday Saturday Sunday 
+
+Header.h:
+enum class Weekday {mon, tue, wed, thu, fri, sat, sun};
+Weekday operator++(Weekday& wkdy, int);
+
+studio2.cpp:
+#include <iostream>
+#include "header.h"
+
+using namespace std;
+Weekday operator++(Weekday& wkdy, int){
+
+    Weekday original = wkdy;  
+
+    switch(wkdy){
+        case Weekday::mon:
+            wkdy = Weekday::tue;
+            break;
+        case Weekday::tue:
+            wkdy = Weekday::wed;
+            break;
+        case Weekday::wed:
+            wkdy = Weekday::thu;
+            break;
+        case Weekday::thu:
+            wkdy = Weekday::fri;
+            break;
+        case Weekday::fri:
+            wkdy = Weekday::sat;
+            break;
+        case Weekday::sat:
+            wkdy = Weekday::sun;
+            break;
+        case Weekday::sun:
+            wkdy = Weekday::mon;
+            break;
+    }
+    return original; 
+}
+
+
+int main(){
+
+    Weekday test = Weekday::mon;
+
+    while(test != Weekday::sun){        
+        cout << test++;
+    }
+    cout<<test;
+    return 0;
+}
+
+
+
+4.
+
+[donggyukim@linuxlab004 studio2]$ ./studio2
+Monday Sunday Saturday Friday Thursday Wednesday Tuesday
+
+header.h:
+Weekday operator--(Weekday& wkdy, int);
+
+studio2.cpp:
+
+Weekday operator--(Weekday& wkdy, int){
+
+    Weekday original = wkdy;  
+
+    switch(wkdy){
+        case Weekday::mon:
+            wkdy = Weekday::sun;  
+            break;
+        case Weekday::tue:
+            wkdy = Weekday::mon;
+            break;
+        case Weekday::wed:
+            wkdy = Weekday::tue;
+            break;
+        case Weekday::thu:
+            wkdy = Weekday::wed;
+            break;
+        case Weekday::fri:
+            wkdy = Weekday::thu;
+            break;
+        case Weekday::sat:
+            wkdy = Weekday::fri;
+            break;
+        case Weekday::sun:
+            wkdy = Weekday::sat;
+            break;
+    }
+    return original;  
+}
+
+int main(){
+
+    Weekday test = Weekday::mon;
+
+    while(test != Weekday::tue){        
+        cout << test--;
+    }
+    cout<<test;
+    return 0;
+}
+
+5.  
+
+header.h : 
+enum class Pressure {lo, med, hi, pop};
+ostream& operator<<(ostream&os, const Pressure& p);
+
+Studio2.cpp :
+ostream& operator<<(ostream&os, const Pressure& p){
+
+    switch(p){
+        case Pressure::lo:
+            os << "Low" << " ";
+          
+            break;
+        case Pressure::med:
+            os << "Medium" << " ";
+          
+            break;
+        case Pressure::hi:
+            os << "High" << " ";
+          
+            break;
+        case Pressure::pop:
+            os << "Pop" << " ";
+           
+            break;
+    }
+
+    return os;
+
+}
+
+int main(){
+    Pressure p = Pressure::lo;
+    cout << p;
+    
+    return 0;
+}
+
+output : 
+[donggyukim@linuxlab004 studio2]$ ./studio2
+Low 
+
+
+
+
+6.   
+header.h:
+Pressure& operator++(Pressure& p);
+
+
+studio2.cpp:
+
+Pressure& operator++(Pressure& p){
+
+    switch(p){
+        case Pressure::lo:
+            p = Pressure::med;
+            break;
+        
+        case Pressure::med:
+            p = Pressure::hi;
+            break;
+        
+        case Pressure::hi:
+            p = Pressure::pop;
+            break;
+        
+        case Pressure::pop:
+            break;
+        
+    };
+
+    return p;
+
+
+
+int main(){
+    Pressure p = Pressure::lo;
+    for(auto i = 0; i < 3; i++){
+        cout << p;
+        ++p;
+    }
+    return 0;
+}
+
+output:
+[donggyukim@linuxlab004 studio2]$ ./studio2
+Low Medium High 
+
+
+
+
+
+
+
+
+

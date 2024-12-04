@@ -1,0 +1,124 @@
+1. Donggyu Kim(437008) 
+
+2. 
+int main(){
+
+
+    Pressure p = Pressure::lo;
+    
+   cout << ++p;
+   cout << ++p;
+   cout << ++p;
+
+    return 0;
+}
+
+[donggyukim@linuxlab008 studio4]$ ./studio4
+Medium High Pop
+
+
+I instantiated p variable with lo. cout prints out p values after p was incremented to a higher enum value.
+++ operator has higher precedence over << by default in compiler.
+
+3.
+
+int main(){
+
+
+    Pressure p = Pressure::lo;
+    Pressure p1 = Pressure::med;
+    Weekday w = Weekday::fri;
+    Weekday w1 = Weekday::mon;
+
+    cout << (p < p1);
+    cout << '\n';
+    cout << (w < w1);
+
+ 
+    return 0;
+}
+
+[donggyukim@linuxlab008 studio4]$ ./studio4
+1
+0
+
+So default < operator in c++ compared numeric values, and enum has implicitly assings numeric values to each enum variables in the order of declaration.
+Therefore, low < med returns true as low(0) is lower than med(1),
+and
+fri < mon returns false as fri(5) is higher than mon(0)
+
+4.
+
+
+    set <Weekday> s1;
+    set <Weekday> s2;
+
+    s1.insert(w1);
+    s1.insert(Weekday::tue);
+    s2.insert(w2);
+
+    set<Weekday>::iterator itr;;
+
+    for(itr = s1.begin(); itr != s1.end(); itr++){
+        cout << *itr;
+    }
+
+    cout << '\n';
+    
+     for(itr = s2.begin(); itr != s2.end(); itr++){
+        cout << *itr;
+    }
+
+
+[donggyukim@linuxlab008 studio4]$ ./studio4
+Tuesday Friday
+Monday
+
+5.
+
+int main(int argc, char *argv[]){
+    set <Weekday> s1;
+    set <Weekday> s2;
+
+    s1.insert(w1);
+    s1.insert(Weekday::tue);
+    s2.insert(w2);
+    s2.insert(Weekday::tue);
+
+    set<Weekday>::iterator itr;
+    set <Weekday> s3;
+    
+    set_intersection(s1.begin(),s1.end(), s2.begin(), s2.end(), inserter(s3, s3.end()));
+
+    for(auto itr = s3.begin(); itr != s3.end(); itr++){
+        cout << *itr;
+    }
+
+    return 0;
+}
+
+[donggyukim@linuxlab002 studio4]$ ./studio4
+Tuesday
+
+
+6. 
+   set <Weekday> s1;
+    set <Weekday> s2;
+
+    s1.insert(w1);
+    s1.insert(Weekday::tue);
+    s2.insert(w2);
+    s2.insert(Weekday::tue);
+
+    set<Weekday>::iterator itr;
+
+set<Weekday> s4;
+set_union(s1.begin(), s1.end(), s2.begin(), s2.end(), std::inserter(s4, s4.end()));
+
+ for(auto itr = s4.begin(); itr != s4.end(); itr++){
+        cout << *itr;
+    };
+return 0;
+
+[donggyukim@linuxlab002 studio4]$ ./studio4
+Monday Tuesday Friday 

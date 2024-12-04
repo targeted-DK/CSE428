@@ -1,0 +1,51 @@
+// use map, int
+// didnt realize they should be exactly rank of each suit for cases where it requires 4. 
+
+// information regarding one error disappear due to environment error but the issue was 
+// template<typename S, typename R>
+// bool compare_rank (const Card<S,R>& firstCard, const Card<S,R>& secondCard){
+
+//     if( static_cast<int>(firstCard.rank) <  static_cast<int>(secondCard.rank)){
+//         return true;
+//     } else if( static_cast<int>(firstCard.rank) ==  static_cast<int>(secondCard.rank) &&  static_cast<int>(firstCard.suit) <  static_cast<int>(secondCard.suit)){
+//         return true;
+//     }
+
+//     return false;
+// }
+
+// not using static_cast<int> but rather directly comparing rank and suit.
+
+
+// PinochleGame.cpp: In function ‘std::ostream& operator<<(std::ostream&, const PinochleMelds&)’:
+// PinochleGame.cpp:301:46: error: array subscript is not an integer
+//      os << meld_str << " " << meld_points[meld];
+//                                               ^
+// In file included from CardSet_T.h:37,
+//                  from Pinochle.h:4,
+//                  from PinochleGame.h:
+
+
+
+// template <typename S, typename R>
+// CardSet<S,R>::CardSet(const CardSet<S,R>& another_cardSet){
+
+//     //push_back() takes in a const object and makes a copy before adding the copied object to the vector.
+//     for(const Card<S,R> card : another_cardSet->getCards()){
+//         this->getCards().push_back(card);
+//     };
+// }
+// PinochleGame.cpp:122:67:   required from here
+// CardSet_T.cpp:80:32: error: base operand of ‘->’ has non-pointer type ‘const CardSet<Suit, PinochleRank>’
+//      for(const Card<S,R> card : another_cardSet->getCards()){
+                          
+
+
+vtable issue -> some files were not probably included in Makefile when I was transferring data from lab 1
+
+
+test cases:
+b : Two Pair
+CQ H10 CJ HJ S10 
+a : x high
+DJ S5 CJ HJ S10 

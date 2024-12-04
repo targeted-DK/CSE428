@@ -1,0 +1,68 @@
+two pair comparison case:
+urrent Game Played : TexasHoldEm with 4 players
+[    a's cards    ]
+H3 SA 
+
+[    b's cards    ]
+C4 HA 
+
+[    c's cards    ]
+H8 SK 
+
+[    d's cards    ]
+DJ S8 
+
+[    BOARD (flop)    ]
+C8 H6 D6 
+
+DJ
+SK
+c : Two Pair
+H8 SK C8 H6 D6 
+d : Two Pair
+DJ S8 C8 H6 D6 
+b : One Pair
+C4 HA C8 H6 D6 
+a : One Pair
+H3 SA C8 H6 D6 
+
+
+[    BOARD (turn)    ]
+C8 H6 D6 D9 
+
+[    BOARD (river)    ]
+C8 H6 D6 D9 CK 
+
+
+one pairs:
+Current Game Played : TexasHoldEm with 4 players
+[    a's cards    ]
+S7 DJ 
+
+[    b's cards    ]
+DK S2 
+
+[    c's cards    ]
+D4 H4 
+
+[    d's cards    ]
+SA S6 
+
+[    BOARD (flop)    ]
+C7 DA HK 
+
+d : One Pair
+SA S6 C7 DA HK 
+b : One Pair
+DK S2 C7 DA HK 
+a : One Pair
+S7 DJ C7 DA HK 
+c : One Pair
+D4 H4 C7 DA HK 
+
+
+[    BOARD (turn)    ]
+C7 DA HK H5 
+
+[    BOARD (river)    ]
+C7 DA HK H5 S5 

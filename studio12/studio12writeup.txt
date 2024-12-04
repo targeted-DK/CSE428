@@ -1,0 +1,91 @@
+1. Donggyu Kim(437008) DK
+
+2. 
+Commented out lines :
+(5) a const pointer to a non-const int variable initialized with the address of the const int variable, 
+int *const e = &a;  
+
+(9) a non-const pointer to a non-const int variable initialized with the address of the const int variable,
+int * i = &a;
+
+a can be modified with e, which is not const. This means that 'constness' of a is violated by modification of e.
+This is the same case with i, because 'constness' of a can be violated by modification of i.
+
+3. 
+Commented out lines:
+ //(1) a const int variable initialized with the value 0, 
+ const int a= 0;
+
+ //(3) a const pointer to a const int variable initialized with the address of the const int variable, 
+const int *const c = &a;
+
+ //(4) a const pointer to a const int variable initialized with the address of the non-const int variable, 
+const int *const d = &b;
+
+ //(7) a non-const pointer to a const int variable initialized with the address of the const int variable, 
+const int * g = &a;
+
+//(8) a non-const pointer to a const int variable initialized with the address of the non-const int variable, 
+const int * h = &b;
+
+a is a const variable so its value cannot be modified with prefix operator.
+case (3) cannot be modified because it points to a const int.
+case (4) cannot be modified as variable d is declared as a const pointer pointing to 'const int'.  It does not matter even if 'd' int because h is declared to point to const int.
+case (7) cannot be modified as variable g is declared as a pointer pointing to 'const int'
+case (8) cannot be modified as variable h is declared as a pointer pointing to 'const int'. It does not matter even if 'b' int because h is declared to point to const int.
+
+4.
+For some reason, all newly created auto variables and incrementing them with prefix operator seem to compile..?? It seems to be the case that
+auto typically discards the top-level const qualifier, so the the resulting type is non-const, making possible to increment using prefix operator.
+
+//(1) a const int variable initialized with the value 0, 
+    const int a = 0;
+    auto aa = a;
+    //(2) a non-const int variable initialized with the value 1, 
+    int b = 1;
+    auto bb = b;
+    //(3) a const pointer to a const int variable initialized with the address of the const int variable, 
+    const int* const c = &a;
+    auto cc = c;
+    //(4) a const pointer to a const int variable initialized with the address of the non-const int variable, 
+    const int* const d = &b;
+    auto dd = d;
+    //(5) a const pointer to a non-const int variable initialized with the address of the const int variable, 
+    // int* e = &a; 
+    //(6) a const pointer to a non-const int variable initialized with the address of the non-const int variable, 
+    int *const f = &b;
+    auto ff = f;
+    //(7) a non-const pointer to a const int variable initialized with the address of the const int variable, 
+    const int * g = &a;
+    auto gg = g;
+    //(8) a non-const pointer to a const int variable initialized with the address of the non-const int variable, 
+    const int * h = &b;
+    auto hh = h;
+    //(9) a non-const pointer to a non-const int variable initialized with the address of the const int variable,
+    // int * i = &a;
+    //(10) a non-const pointer to a non-const int variable initialized with the address of the non-const int variable. 
+    int * j = &b;
+    auto jj = j;
+
+     ++aa;
+    ++bb;
+    ++cc;
+    ++dd;
+    ++ff;
+    ++gg;
+    ++hh;
+    ++jj;
+
+5.
+Compared to auto, decltype maintains decltype retains both top-level and low-level const qualifiers.
+Therefore, some newly created variables using decltype cannot be incremented with prefix operator as the variable used with decltype has constness.
+
+6.
+    myConstInt a = 0;
+    myInt b = 1;
+    myConstPtrToConstInt c = &a;
+    myConstPtrToConstInt d = &b;
+    myConstPtrToInt f = &b;
+    myConstIntPtr g = &a;
+    myConstIntPtr h = &b;
+    myIntPtr j = &b;

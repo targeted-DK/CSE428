@@ -1,0 +1,63 @@
+1. Donggyu Kim 
+
+2. 
+[donggyukim@linuxlab004 studio7]$ ./studio7
+Low  Medium  High  Pop  
+Monday  Tuesday  Wednesday  Thursday  Friday  Saturday  Sunday  
+
+3. 
+[donggyukim@linuxlab004 studio7]$ ./studio7
+Low  Medium  High  Pop  
+Monday  Tuesday  Wednesday  Thursday  Friday  Saturday  Sunday  
+
+using std::ostream;
+using std::cout;
+using std::endl;
+
+4. 
+std::ostream& operator<<(std::ostream&os, const Pressure& p);
+                                                 ^~~~~~~~
+header.h:20:1: error: ‘Pressure’ does not name a type
+ Pressure& operator++(Pressure& p);
+ ^~~~~~~~
+header.h:21:1: error: ‘Pressure’ does not name a type
+ Pressure& operator--(Pressure& p);
+ ^~~~~~~~
+header.h:26:49: error: ‘Weekday’ does not name a type
+ std::ostream& operator<<(std::ostream&os, const Weekday& w);
+                                                 ^~~~~~~
+header.h:28:1: error: ‘Weekday’ does not name a type
+ Weekday operator++(Weekday& wkdy, int); //Question : How is different from Weekday operator++(Weekday& wkdy);
+ ^~~~~~~
+header.h:29:1: error: ‘Weekday’ does not name a type
+ Weekday operator--(Weekday& wkdy, int);
+ ^~~~~~~
+source.cpp:13:39: error: ‘Pressure’ does not name a type
+ ostream& operator<<(ostream&os, const Pressure& p){
+                                       ^~~~~~~~
+source.cpp: In function ‘std::ostream& operator<<(std::ostream&, const int&)’:
+source.cpp:16:14: error: ‘Pressure’ has not been declared
+         case Pressure::lo:
+              ^~~~~~~~
+source.cpp:20:14: error: ‘Pressure’ has not been declared
+         case Pressure::med:
+              ^~~~~~~~
+source.cpp:24:14: error: ‘Pressure’ has not been declared
+         case Pressure::hi:
+              ^~~~~~~~
+source.cpp:28:14: error: ‘Pressure’ has not been declared
+   
+   and on and on....
+
+
+5.
+I added : 'using namespace enumerations' to each source files. - I am not sure why question asks 'explain briefly why you didn't have to add that statement to the source files that contain the definitions for the Weekday and Pressure enumerated types.',
+because I did add the statement to source files.
+
+6. 
+I added : 
+using namespace enumerations::operator++;
+using namespace enumerations::operator--;
+using namespace enumerations::operator<<;
+
+The question does not clarify what to answer so I just added code I wrote.

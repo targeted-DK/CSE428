@@ -1,0 +1,123 @@
+1. Donggyu Kim(437008)
+
+2. 
+[donggyukim@linuxlab007 studio9]$ ./studio9
+1
+1
+1
+
+int main () { 
+    BaseClass b;
+    DerivedClass d;
+
+    const string DerivedClass::*dp1 = &DerivedClass::str;
+    const string DerivedClass::*dp2 = &BaseClass::str;
+    const string DerivedClass::*bp1 = &BaseClass::str;
+   
+
+    cout << dp1 << endl;
+    cout << dp2 << endl;
+    cout << bp1 << endl;
+    
+    return SUCCESS;
+}
+
+3.
+int main () { 
+    BaseClass b;
+    DerivedClass d;
+
+    const string DerivedClass::*dp1 = &DerivedClass::str;
+    const string DerivedClass::*dp2 = &BaseClass::str;
+    const string DerivedClass::*bp1 = &BaseClass::str;
+   
+
+    cout << dp1 << endl;
+    cout << dp2 << endl;
+    cout << bp1 << endl;
+    
+    return SUCCESS;
+ 
+}
+
+4. 
+
+int main () { 
+    BaseClass b;
+    DerivedClass d;
+
+    void (BaseClass::*p1)() = &BaseClass::test;
+    void (DerivedClass::*p2)() = &BaseClass::test;
+    void (DerivedClass::*p3)() = &DerivedClass::test;
+
+    (b.*p1)();
+    (d.*p2)();
+    (d.*p3)();
+  
+    return SUCCESS;
+}
+[donggyukim@linuxlab002 studio9]$ ./studio9
+BaseClass::BaseClass()
+BaseClass::BaseClass()
+DerivedClass::DerivedClass()
+This function is test() and is included in BaseClass.
+This function is test() and is included in DerivedClass.
+This function is test() and is included in DerivedClass.
+DerivedClass::~DerivedClass()
+BaseClass::~BaseClass()
+BaseClass::~BaseClass()
+
+5.
+[donggyukim@linuxlab002 studio9]$ ./studio9
+BaseClass::BaseClass()
+BaseClass::BaseClass()
+DerivedClass::DerivedClass()
+This function is test() and is included in BaseClass.
+This function is test() and is included in BaseClass.
+This function is test() and is included in DerivedClass.
+DerivedClass::~DerivedClass()
+BaseClass::~BaseClass()
+BaseClass::~BaseClass()
+
+Getting rid of virutal, the method call is based on pointer at compile time. Therefore, first two pointers point to baseclass, as they point to baseclass function,
+and the last pointer points to derivedclass, as it points to derivedclass function.
+
+6.
+    function<void(BaseClass*)> p1 = bind(&BaseClass::test, placeholders::_1);
+    function<void(DerivedClass*)> p2 = bind(&BaseClass::test, placeholders::_1);
+    function<void(DerivedClass*)> p3 = bind(&DerivedClass::test, placeholders::_1);
+
+    p1(&b);
+    p2(&d);
+    p3(&d);
+
+[donggyukim@linuxlab002 studio9]$ ./studio9
+BaseClass::BaseClass()
+BaseClass::BaseClass()
+DerivedClass::DerivedClass()
+This function is test() and is included in BaseClass.
+This function is test() and is included in BaseClass.
+This function is test() and is included in DerivedClass.
+DerivedClass::~DerivedClass()
+BaseClass::~BaseClass()
+BaseClass::~BaseClass()
+
+7.
+    auto p1 = mem_fn(&BaseClass::test);
+    auto p2 = mem_fn(&BaseClass::test);
+    auto p3 = mem_fn(&DerivedClass::test);
+   
+    p1(&b);
+    p2(&d);
+    p3(&d);
+
+[donggyukim@linuxlab002 studio9]$ ./studio9
+BaseClass::BaseClass()
+BaseClass::BaseClass()
+DerivedClass::DerivedClass()
+This function is test() and is included in BaseClass.
+This function is test() and is included in BaseClass.
+This function is test() and is included in DerivedClass.
+DerivedClass::~DerivedClass()
+BaseClass::~BaseClass()
+BaseClass::~BaseClass()

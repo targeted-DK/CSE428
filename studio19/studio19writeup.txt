@@ -1,0 +1,123 @@
+1. Donggyu Kim(DK)
+
+2. 
+The set container enforced uniqueness of key, as you can see in the output that the use of 'set' did not allow duplicate strings.
+[donggyukim@linuxlab006 studio19]$ ./studio19 dk dk hi
+./studio19
+dk
+hi
+[donggyukim@linuxlab006 studio19]$ ./studio19 dk james hi
+./studio19
+dk
+hi
+james
+
+3. 
+[donggyukim@linuxlab006 studio19]$ ./studio19 dk dk hi
+./studio19
+dk
+dk
+hi
+[donggyukim@linuxlab006 studio19]$ ./studio19 dk james hi
+./studio19
+dk
+james
+hi
+
+In this case, duplicate values were printed out because key was not using strings like previous question, but rather used the memory address of a pointer to each char.
+
+4. 
+Code I Wrote:
+std::set<std::string, decltype(test)*> set_str(test);
+std::copy(argv, argv + argc, std::inserter(set_str, set_str.end()));
+std::copy(set_str.begin(), set_str.end(), std::ostream_iterator<std::string>(std::cout, "\n"));
+
+output :
+[donggyukim@35 studio19]$ ./studio19 a b c d aa bb aac a a
+d
+c
+bb
+b
+aac
+aa
+a
+
+5.
+[donggyukim@35 studio19]$ ./studio19 a b c d aa bb aac a a
+d
+c
+bb
+b
+aac
+aa
+a
+a
+a
+
+multiset allows duplicate values in a set, therefore prints out multiple same values, which is different from the output of question 4.
+
+6.
+Code I wrote:
+std::multiset<std::string, decltype(test)*> multiset_str(test);
+std::copy(argv, argv + argc, std::inserter(multiset_str, multiset_str.end()));
+std::string target = "a";
+auto range = multiset_str.equal_range(target);
+std::copy(range.first, range.second, std::ostream_iterator<std::string>(std::cout, "\n"));
+
+output :
+[donggyukim@35 studio19]$ ./studio19 a b c d aa bb aac a a
+a
+a
+a
+
+7.
+Code I wrote:
+    std::multiset<std::string, decltype(test)*> multiset_str(test);
+    std::copy(argv, argv + argc, std::inserter(multiset_str, multiset_str.end()));
+    std::string target = "a";
+    auto range = multiset_str.equal_range(target);
+    std::copy(range.first, range.second, std::ostream_iterator<std::string>(std::cout, "\n"));
+    cout << "after erase" << endl;
+    //Version 1
+    multiset_str.erase(range.first);
+    //Version 2
+    multiset_str.erase(range.first, range.second);
+    for (const auto& str : multiset_str) {
+        std::cout << str << "\n";
+    }
+
+
+
+
+output :
+(1) call the container's erase member function using the first iterator returned from equal_range,
+[donggyukim@35 studio19]$ ./studio19 a b c d aa bb aac a a
+a
+a
+a
+after erase
+d
+c
+bb
+b
+aac
+aa
+a
+a
+
+(2) change the call to erase to use both iterators returned by equal_range.
+[donggyukim@35 studio19]$ ./studio19 a b c d aa bb aac a a
+a
+a
+a
+after erase
+d
+c
+bb
+b
+aac
+aa
+
+Explanation:
+Two variations have different output regarding the 'a' because version 1 erases the only the first occurrence while version 2 erases all occurrence that are found in iterator.
+

@@ -1,0 +1,51 @@
+1. Donggyu Kim(DK)
+
+2.
+output:
+[donggyukim@linuxlab002 studio15]$ ./studio15
+Hi! 
+Hi, c style string! 
+ This is printed from non template_func : Hi, using myclass constructor!
+99 
+3.14 
+
+3.
+
+declaration:
+template<typename T, typename... Args>
+void template_func(std::ostream& os, const T& t, const Args&... args);
+void template_func(std::ostream& os);
+
+definition:
+template<typename T, typename... Args>
+void template_func(std::ostream& os, const T& t, const Args&... args){
+
+    os << t;
+    os << " ";
+    template_func(os, args...);
+};
+
+void template_func(std::ostream& os) {
+    os << std::endl;
+}
+
+In main :
+std::string str = "Hi!";
+const char* c_str = "Hi, c style string!";
+studio::MyClass a("Hi, using myclass constructor!");
+int x = 99;
+float y = 3.14f;
+template_func(cout, str, c_str, a, x, y);
+
+
+4.
+output :
+[donggyukim@linuxlab004 studio15]$ ./studio15 
+# of elements left in arguments : 5
+Hi! Hi, c style string! Hi, using myclass constructor! 99 3.14 
+
+5.
+[donggyukim@linuxlab004 studio15]$ ./studio15 
+# of elements left in arguments : 5
+Hi! Hi, c style string! Hi, using myclass constructor! 99 3.14 
+Total bytes in function parameter pack: 80

@@ -1,0 +1,11 @@
+// questions
+
+// 1. for (suit_type i = suit_type::red; i < suit_type::undefined; ++i){
+//         this->cards.push_back(Card<Color, UnoRank>(i, UnoRank::zero));
+
+//     } how does suit_Type gets recognized into Color enum?
+
+//template <typename suit_type = Suit, typename rank_type = TexasholdemRank, typename deck_type = Texasholdem>
+// Texasholdem is a class for me that inherits Deck. Is this HoldEmDeck as described?
+
+2. does go fish game inherits deck class?

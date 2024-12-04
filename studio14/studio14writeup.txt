@@ -1,0 +1,76 @@
+1. Donggyu Kim(DK)
+
+2. 
+[donggyukim@linuxlab002 studio14]$ ./studio14
+Hi Bye
+
+3.
+[donggyukim@linuxlab002 studio14]$ ./studio14
+0
+
+4.
+Code I wrote:
+class MyClass{
+    private :
+        std::string var;
+
+    public:
+        MyClass(const std::string& str) : var(str){};
+        friend bool operator<(const MyClass& class_obj, const MyClass& other_obj);
+        friend std::ostream& operator<<(std::ostream& os, const MyClass& class_obj);
+};
+
+std::ostream& operator<<(std::ostream& os, const MyClass& class_obj) {
+    os << class_obj.var;
+    return os;    
+}
+bool operator<(const MyClass& class_obj, const MyClass& other_obj){
+    return class_obj.var < other_obj.var;
+}
+
+The output is the same as #3.
+[donggyukim@linuxlab002 studio14]$ ./studio14
+0
+
+5. 
+header.h:28:40: error: ‘bool operator<(const MyClass&)’ must have exactly two arguments
+ bool operator<(const MyClass& other_obj){
+
+It seems that the uncommented operator<(one we created first) seems to follow the definition of the 2nd version of operator<, which takes in two arguments.
+This error is triggered because the ambiguity cannot be resolved.
+
+6. 
+studio_T.h :
+#ifndef STUDIO_T_H
+#define STUDIO_T_H
+#include <iostream>
+
+
+template<typename T>
+void template_func(std::ostream& os, const T& t);
+
+#include "studio_T.cpp"
+#endif 
+
+
+studio_T.cpp :
+#include "studio_T.h"
+#include <iostream>
+
+using namespace std;
+
+template<typename T>
+void template_func(std::ostream& os, const T& t){
+    os << t;
+};
+
+The same output is confirmed:
+[donggyukim@linuxlab002 studio14]$ ./studio14
+Hi Bye
+
+7.
+output : 
+[donggyukim@linuxlab002 studio14]$ ./studio14
+ This is printed from non template_func : Hi 
+ This is printed from template_func : 42
+

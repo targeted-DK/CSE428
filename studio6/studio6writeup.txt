@@ -1,0 +1,216 @@
+1. Donggyu Kim(437008)
+
+2. 
+
+source.cpp:19:18: warning: ‘test.Test::x_’ is used uninitialized in this function [-Wuninitialized]
+     cout << test.x_ << endl;
+                  ^~
+source.cpp:20:18: warning: ‘test.Test::y_’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+     cout << test.y_;
+
+
+
+Above warning disappeared after I added a constructor with default values, as member variables were intialized with 0 at the point of class initialization.
+
+3.
+After changing struct -> class
+source.cpp: In function ‘int main(int, char**)’:
+source.cpp:17:10: error: ‘Test::Test()’ is private within this context
+     Test test;
+          ^~~~
+source.cpp:9:1: note: declared private here
+ Test::Test ()
+ ^~~~
+source.cpp:19:18: error: ‘int Test::x_’ is private within this context
+     cout << test.x_ << endl;
+                  ^~
+In file included from source.cpp:4:
+header.h:10:9: note: declared private here
+     int x_; int y_;
+         ^~
+source.cpp:20:18: error: ‘int Test::y_’ is private within this context
+     cout << test.y_;
+
+adding public : 
+[donggyukim@linuxlab002 studio6]$ ./studio6
+0
+0
+
+adding protected :
+source.cpp:17:10: error: ‘Test::Test()’ is protected within this context
+     Test test;
+          ^~~~
+source.cpp:9:1: note: declared protected here
+ Test::Test ()
+ ^~~~
+source.cpp:19:18: error: ‘int Test::x_’ is protected within this context
+     cout << test.x_ << endl;
+                  ^~
+In file included from source.cpp:4:
+header.h:10:21: note: declared protected here
+     protected : int x_; int y_;
+                     ^~
+source.cpp:20:18: error: ‘int Test::y_’ is protected within this context
+     cout << test.y_;
+                  ^~
+In file included from source.cpp:4:
+header.h:10:29: note: declared protected here
+     protected : int x_; int y_;
+
+
+adding private:
+source.cpp:17:10: error: ‘Test::Test()’ is private within this context
+     Test test;
+          ^~~~
+source.cpp:9:1: note: declared private here
+ Test::Test ()
+ ^~~~
+source.cpp:19:18: error: ‘int Test::x_’ is private within this context
+     cout << test.x_ << endl;
+                  ^~
+In file included from source.cpp:4:
+header.h:10:19: note: declared private here
+     private : int x_; int y_;
+                   ^~
+source.cpp:20:18: error: ‘int Test::y_’ is private within this context
+     cout << test.y_;
+                  ^~
+In file included from source.cpp:4:
+header.h:10:27: note: declared private here
+     private : int x_; int y_;
+
+
+Struct members are public by default, while class members are private by default, so class members need to be explictly declared as a public to be accessed from outside of the class.
+
+4.
+int main(int argc, char *argv[]){
+
+
+    Test test;
+    Test& test1 = test;
+
+    cout << test.getX() << endl;
+    cout << test.getY() << endl;
+    cout << test1.getX() << endl;
+    cout << test1.getY() << endl;
+    test.setX(1);
+    test.setY(2);
+    test1.setX(1);
+    test1.setY(2);
+
+    cout << test.getX() << endl;
+    cout << test.getY() << endl;
+    cout << test1.getX() << endl;
+    cout << test1.getY() << endl;
+
+};
+
+[donggyukim@linuxlab002 studio6]$ ./studio6
+0
+0
+0
+0
+1
+2
+1
+2
+
+For some reason, all mutators work for both test and test1. I am little confused with 'try calling the accessor and mutator methods on const and non-const objects of the class type and remove statements that do not work'.
+FYI, this is my code for accessor and mutators:
+ int Test::getX () const{
+    return x_; 
+  };
+
+    int Test::getY () const{
+    return y_; 
+  };
+
+Test& Test::setX(int x){
+    this->x_ = x;
+    return *this;
+};
+
+Test& Test::setY(int y){
+    this->y_ = y;
+    return *this;
+};
+
+
+5.
+[donggyukim@linuxlab002 studio6]$ ./studio6
+m.x_ is 0 and m.y_ is 0
+m.x is 7 and m.y is 3
+n.x = 7 and n.y = 3
+
+Answer: Copy constructor copies definition of accessors and copies mutated member variables.
+
+6. 
+[donggyukim@linuxlab002 studio6]$ ./studio6
+m.x_ is 0 and m.y_ is 0
+m.x is 7 and m.y is 3
+n.x = 7 and n.y = 3
+
+In this case, copy constructor initializes new object using member initialization list to assign values to its member variables.
+
+7.
+
+default constructor called
+0x7ffe572c6278
+0
+0
+m.x_ is 0 and m.y_ is 0
+m.x is 7 and m.y is 3
+copy constructor called
+0x7ffe572c6270
+7
+3
+n.x = 7 and n.y = 3
+
+------------------------------------------------------------------------
+[donggyukim@linuxlab002 studio6]$ ./studio6
+default constructor called
+0x7ffe534b9058
+0
+0
+copy constructor called
+0x7ffe534b9068
+0
+0
+copy constructor called
+0x7ffe534b9060
+0
+0
+m.x_ is 0 and m.y_ is 0
+copy constructor called
+0x7ffe534b9078
+7
+3
+copy constructor called
+0x7ffe534b9070
+7
+3
+m.x is 7 and m.y is 3
+copy constructor called
+0x7ffe534b9050
+7
+3
+copy constructor called
+0x7ffe534b9088
+7
+3
+copy constructor called
+0x7ffe534b9080
+7
+3
+n.x = 7 and n.y = 3
+
+object is created in main using default constructor -> copy constructor of original object and passed by value -> copy constructor of original object and returned by value
+-> copy constructor of original object and passed by value -> copy constructor of original object and returned by value
+-> copy constructor of copied object and passed by value -> copy constructor of copied object and returned by value
+
+
+8.
+If you explicitly declare constructor as a private, you cannot instantiate on object :
+source.cpp:71:10: error: ‘Test::Test()’ is private within this context
+     Test m;
+However, if you define the private constructor, it seems that you can still instantiate the object.

@@ -1,0 +1,126 @@
+1. Donggyu Kim, Chris Lopaz, Aroon
+
+
+2.
+code :
+int main(int argc, char *argv[]){
+
+    const char *str1 = "Hello!";
+    const char *str2 = "World!";
+
+    cout << "\"" << str1 << "\"";
+    cout << '\n';
+    cout << "\"" << str2 << "\"";
+cout << '\n';
+    
+   cout <<  std::strlen(str1);
+   cout << '\n';
+    cout << std::strlen(str2);
+
+    
+}
+
+output :
+[donggyukim@linuxlab006 studio5]$ ./studio5
+"Hello!"
+"World!"
+6
+6
+
+3.
+code : 
+int main(int argc, char *argv[]){
+
+     const char *str1 = "Hello!";
+    const char *str2 = "World!";
+    std::size_t (*p)( const char* ) = std::strlen;
+
+     cout << (*p)(str1);
+     cout << '\n';
+     cout << (*p)(str2);
+}
+
+output:
+[donggyukim@linuxlab006 studio5]$ ./studio5
+6                  
+6
+
+4.
+code :
+
+int main(int argc, char *argv[]){
+    float number = 1;
+    cout << std::sin(std::cos(number));
+    return 0;
+}
+
+output:
+[donggyukim@linuxlab006 studio5]$ ./studio5
+0.51439
+
+5.
+code :
+int main(int argc, char *argv[]){
+
+    float number = 1;
+    function<float(float)> sn =
+		 [](auto i) { return std::sin(i); }; 
+    
+      function<float(float)> cs =
+		 [](auto i) { return std::cos(i); }; 
+
+    cout << sn(cs(number));
+
+    return 0;
+}
+
+output :
+[donggyukim@linuxlab006 studio5]$ ./studio5
+0.514395
+
+6.
+code : 
+int main(int argc, char *argv[]){
+
+    float number = 1;
+
+    function<float(float)> sn =
+		 [](auto i) { return std::sin(i); }; 
+    
+      function<float(float)> cs =
+		 [](auto i) { return std::cos(i); }; 
+
+    auto a = compose(sn, cs);
+   
+    cout << a(number);
+
+    return 0;
+}
+
+output : 
+[donggyukim@linuxlab006 studio5]$ ./studio5
+0.5143950.514395
+
+7. 
+code :
+
+int main(int argc, char *argv[]){
+
+    float number = 1;
+    auto b =  std::sin(std::cos(number));
+    function<float(float)> sn =
+		 [](auto i) { return std::sin(i); }; 
+    
+      function<float(float)> cs =
+		 [](auto i) { return std::cos(i); }; 
+
+    auto a = compose(sn, cs);    
+    auto d = bind(a, _1);
+
+    cout << d(number);
+
+    return 0;   
+}
+
+[donggyukim@linuxlab006 studio5]$ ./studio5
+0.514395

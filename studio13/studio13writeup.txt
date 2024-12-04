@@ -1,0 +1,37 @@
+1. Donggyu Kim(DK)
+
+2. [donggyukim@linuxlab004 studio13]$ ./studio13
+Constructor : Address of this object is : 0x7ffc4602ebb0
+Constructor : Variable of this object is : hello
+Copy Constructor : Address of this object is : 0x7ffc4602eb80
+Copy Constructor : Variable of this object is : hello
+Copy Constructor : Address of other object is : 0x7ffc4602ebb0
+Copy Constructor : Variable of other object is : hello
+Constructor : Address of this object is : 0x7ffc4602eb50
+Constructor : Variable of this object is : 3
+operator= : Address of private member variable is : 0x7ffc4602ebb8
+operator= : Value of private member variable is : hello
+operator= : Address of private member variable is : 0x7ffc4602eb88
+operator= : Value of private member variable is : hello
+Constructor : Address of this object is : 0x146bc20
+Constructor : Variable of this object is : hello
+print() : Address of this object : 0x146bc20
+print() : object's private member variable : hello
+Destructor : Address of this object is : 0x146bc20
+Destructor : Variable of this object is : hello
+Segmentation fault (core dumped)
+
+
+3.
+unique_ptr<MyClass> p2 = myMove(p1);
+invoke(myMove(p2));
+Yes, using myMove instead of move does show same output.
+
+4.
+  std::unique_ptr<MyClass> p1 = std::make_unique<MyClass>("hello");
+
+Yes, using make_unique shows the same output.
+
+5.
+Output:
+7MyClass

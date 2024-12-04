@@ -1,0 +1,72 @@
+1. Donggyu Kim(437008)
+
+2. 
+class MyClass{
+    private :
+        std::string var;
+
+};
+
+3.
+[donggyukim@linuxlab006 studio11]$ ./studio11
+Address of this object is : 0x7ffe7e7f7260
+Address of other object is : 0x7ffe7e7f7280
+
+4.
+[donggyukim@linuxlab006 studio11]$ ./studio11
+Constructor : Address of this object is : 0x7ffd6e4b3560
+Constructor : Variable of this object is : hello
+Copy Constructor : Address of this object is : 0x7ffd6e4b3540
+Copy Constructor : Variable of this object is : hello
+Copy Constructor : Address of other object is : 0x7ffd6e4b3560
+Copy Constructor : Variable of other object is : hello
+Destructor : Address of this object is : 0x7ffd6e4b3540
+Desturctor : Variable of this object is : 0x7ffd6e4b3540
+Destructor : Address of this object is : 0x7ffd6e4b3560
+Destructor : Variable of this object is : 0x7ffd6e4b3560
+
+5.
+[donggyukim@linuxlab006 studio11]$ ./studio11
+Constructor : Address of this object is : 0x7ffdafc5ff50
+Constructor : Variable of this object is : 1
+Constructor : Address of this object is : 0x7ffdafc5ff30
+Constructor : Variable of this object is : 2
+Constructor : Address of this object is : 0x7ffdafc5ff10
+Constructor : Variable of this object is : 3
+operator= : Address of private member variable is : 0x7ffdafc5ff50
+operator= : Value of private member variable is : 1
+operator= : Address of private member variable is : 0x7ffdafc5ff30
+operator= : Value of private member variable is : 1
+Destructor : Address of this object is : 0x7ffdafc5ff10
+Destructor : Variable of this object is : 0x7ffdafc5ff10
+Destructor : Address of this object is : 0x7ffdafc5ff30
+Destructor : Variable of this object is : 0x7ffdafc5ff30
+Destructor : Address of this object is : 0x7ffdafc5ff50
+Destructor : Variable of this object is : 0x7ffdafc5ff50
+
+6. 
+[donggyukim@linuxlab006 studio11]$ ./studio11
+Constructor : Address of this object is : 0x65bc20
+Constructor : Variable of this object is : hello
+Destructor : Address of this object is : 0x65bc20
+Destructor : Variable of this object is : 0x65bc20
+
+7.
+[donggyukim@linuxlab006 studio11]$ ./studio11
+Constructor : Address of this object is : 0x12a0c20
+Constructor : Variable of this object is : hello
+print() : Address of this object : 0x12a0c20
+print() : object's private member variable : hello
+Destructor : Address of this object is : 0x12a0c20
+Destructor : Variable of this object is : 0x12a0c28
+
+8.
+[donggyukim@linuxlab006 studio11]$ ./studio11
+Constructor : Address of this object is : 0x19c2c20
+Constructor : Variable of this object is : hello
+print() : Address of this object : 0x19c2c20
+print() : object's private member variable : hello
+print() : Address of this object : 0x19c2c20
+print() : object's private member variable : hello
+Destructor : Address of this object is : 0x19c2c20
+Destructor : Variable of this object is : 0x19c2c28

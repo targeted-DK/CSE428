@@ -1,0 +1,129 @@
+1. Donggyu Kim(DK)
+
+2. 
+output:
+[donggyukim@linuxlab004 studio17]$ ./studio17
+Size of the array: 20 bytes
+Size of the array type: 4 bytes
+
+code :
+#include <iostream>
+
+#define SUCCESS 0
+
+using namespace std;
+
+int main(){
+
+
+    int myArray[] = {1, 2, 3, 4, 5};
+  
+    cout << "Size of the array: " << sizeof(myArray) << " bytes" << endl;
+    cout << "Size of the array type: " << sizeof(myArray[0]) << " bytes" << endl;
+    return SUCCESS;
+}
+
+3.
+code :
+  int* pointerToEnd = myArray + (sizeof(myArray) / sizeof(myArray[0]));
+
+    
+    for (int* ptr = myArray; ptr != pointerToEnd; ++ptr) {
+        cout << *ptr << endl;
+    }
+
+output :
+[donggyukim@linuxlab004 studio17]$ ./studio17
+1
+2
+3
+4
+5
+
+4.
+code:
+#include "template.h"
+#include <iostream>
+
+template <typename T>
+void iterateAndPrint(T begin, T end) {
+    for (T ptr = begin; ptr != end; ++ptr) {
+        cout << *ptr << endl;
+    }
+}
+
+In main function:
+    int myArray[] = {1, 2, 3, 4, 5};
+    int* pointerToEnd = myArray + (sizeof(myArray) / sizeof(myArray[0]));
+    iterateAndPrint(myArray, pointerToEnd);
+
+output :
+[donggyukim@linuxlab004 studio17]$ ./studio17
+1
+2
+3
+4
+5
+
+5.
+output:
+Contents of myDeque:
+1
+2
+3
+4
+5
+
+Contents of myVector:
+1
+2
+3
+4
+5
+
+Contents of myList:
+1
+2
+3
+4
+5
+
+
+6.
+output:
+[donggyukim@linuxlab004 studio17]$ ./studio17
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+
+my code :
+    vector<int> vec = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    vector<int>::iterator vec_itr = vec.begin() + 1;
+
+    iterateAndPrint(vec.begin(), vec_itr);
+    iterateAndPrint(vec_itr, vec.end());
+    vec_itr = vec.begin() + (vec.end() - vec.begin()) / 2;
+
+    iterateAndPrint(vec.begin(), vec_itr);
+    iterateAndPrint(vec_itr, vec.end());
+
+
+7. array, deque, vector suppors [] operator, while list does not.
+List offers constant time look up but does not allow direct access using [] operator, while other data structures support random access.
