@@ -17,8 +17,6 @@ class Uno : public Deck<Color, UnoRank>{
 
     public:
         Uno();
-
-
 };
 
 //#14. UnoRank, Color operators

@@ -32,9 +32,10 @@ TexasholdemGame::TexasholdemGame(int argc, const char *argv[]) : Game(argc, argv
     }
 }
 
+TexasholdemGame::~TexasholdemGame(){}
+
 void TexasholdemGame::deal()
 {
-    int counter = 0;
     if (this->state == HoldEmState::preflop)
     {
 
@@ -45,7 +46,6 @@ void TexasholdemGame::deal()
             {
 
                 this->texas_deck >> this->hands.at(curr_player);
-                counter++;
             }
         }
 
@@ -86,9 +86,10 @@ void TexasholdemGame::deal()
 int TexasholdemGame::play()
 {
     int user_input_result = PLAY_AGAIN;
-
+     
     while (user_input_result == PLAY_AGAIN)
     {
+
         cout << endl;
         cout << "Current Game Played : TexasHoldEm with " << this->names.size() << " players" << endl;
         this->texas_deck.shuffle();
@@ -103,9 +104,9 @@ int TexasholdemGame::play()
 
         //#17 - push back an instance of that struct with each player's hand and name and the undefined value.
         std::vector<TexasholdemGame::Player> player_infos;
-      
+
         for (size_t player = START_COUNTER; player < this->hands.size(); player++){
-            
+           
             Player player_info(this->hands.at(player), this->names.at(player), HoldEmHandRank::undefined);
             player_infos.push_back(player_info);
         }
@@ -116,6 +117,9 @@ int TexasholdemGame::play()
             }
            
             player.hand_rank = holdem_hand_evaluation(player.card_set);
+            cout << endl;
+            cout << player.hand_rank;
+            cout << endl;
            
         }
 
@@ -230,7 +234,6 @@ std::ostream &operator<<(std::ostream &os, const HoldEmHandRank &hand_rank)
     return os;
 }
 
-// #15. Declare and define a private holdem_hand_evaluation member function
 HoldEmHandRank TexasholdemGame::holdem_hand_evaluation(const CardSet<Suit, TexasholdemRank> &holdem_player_hand)
 {
     // This line uses a custom copy constructor of CardSet that performs deepcopy of a given paramete
@@ -240,11 +243,6 @@ HoldEmHandRank TexasholdemGame::holdem_hand_evaluation(const CardSet<Suit, Texas
      temp_card_set.sortByRank();
      temp_card_set.sortBySuit();
 
-    // vector<Card<Suit, TexasholdemRank>>::iterator card_iterator_begin = temp_card_set.begin();
-    // vector<Card<Suit, TexasholdemRank>>::iterator card_iterator_end = temp_card_set.end();
-
-
-    // auto memberPointer = CardSet<Suit, TexasholdemRank>::get_cards_pointer();
     const vector<Card<Suit, TexasholdemRank>> &temp_cards = temp_card_set.getCards();
 
     // Check if the number of cards is exactly 5
@@ -511,10 +509,7 @@ bool operator< (const TexasholdemGame::Player &lhs, const TexasholdemGame::Playe
     CardSet<Suit, TexasholdemRank> lhs_card_set_copy(lhs.card_set);
     CardSet<Suit, TexasholdemRank> rhs_card_set_copy(rhs.card_set);
 
-    // std::sort(lhs_cards.begin(), lhs_cards.end(), compare_rank<Suit, TexasholdemRank>);
-    // std::sort(rhs_cards.begin(), rhs_cards.end(), compare_suit<Suit, TexasholdemRank>);
-    // reverse(lhs_cards.begin(), lhs_cards.end());
-    // reverse(rhs_cards.begin(), rhs_cards.end());
+  
 
     //#7.you also may need to update various places in your code to use those iterators instead of the pointer to class template's protected vector member.
     vector<Card<Suit, TexasholdemRank>>::iterator lhs_cardSet_itr_begin = lhs_card_set_copy.begin();
@@ -523,20 +518,10 @@ bool operator< (const TexasholdemGame::Player &lhs, const TexasholdemGame::Playe
     vector<Card<Suit, TexasholdemRank>>::iterator rhs_cardSet_itr_end = rhs_card_set_copy.end();
 
     std::sort(lhs_cardSet_itr_begin, lhs_cardSet_itr_end, compare_rank<Suit, TexasholdemRank>);
-    // std::sort(lhs_cardSet_itr_begin, lhs_cardSet_itr_end, compare_suit<Suit, TexasholdemRank>);
     std::sort(rhs_cardSet_itr_begin, rhs_cardSet_itr_end, compare_rank<Suit, TexasholdemRank>);
-    // std::sort(rhs_cardSet_itr_begin, rhs_cardSet_itr_end, compare_suit<Suit, TexasholdemRank>);
 
     reverse(lhs_cardSet_itr_begin, lhs_cardSet_itr_end);
     reverse(rhs_cardSet_itr_begin, rhs_cardSet_itr_end);
-
-    // we get each vector in cardset using the pointer we created in #9.
-    // auto memberPointer = CardSet<Suit, TexasholdemRank>::get_cards_pointer();
-
-    //sort cards in decreasing order before tie breaker helper functions
-    
-
-   
 
 
 if (lhs.hand_rank == HoldEmHandRank::straightflush && rhs.hand_rank == HoldEmHandRank::straightflush) {
@@ -607,16 +592,12 @@ bool compare_pair(vector<Card<Suit, TexasholdemRank>>::iterator lhs_begin,
     vector<Card<Suit, TexasholdemRank>> lhs_cards_without_pair;
     vector<Card<Suit, TexasholdemRank>> rhs_cards_without_pair;
 
-    vector<Card<Suit, TexasholdemRank>>::iterator lhs_cards_without_pair_begin = lhs_cards_without_pair.begin();
-    vector<Card<Suit, TexasholdemRank>>::iterator lhs_cards_without_pair_end = lhs_cards_without_pair.end();
-    vector<Card<Suit, TexasholdemRank>>::iterator rhs_cards_without_pair_begin = rhs_cards_without_pair.begin();
-    vector<Card<Suit, TexasholdemRank>>::iterator rhs_cards_without_pair_end = rhs_cards_without_pair.end();
+    
 
     while(lhs_begin != lhs_end){
        
         if(lhs_begin->rank == (lhs_begin + 1)->rank){
             lhs_pair_high = lhs_begin->rank;
-              // skips next card
             
         }
         else if(lhs_begin->rank != (lhs_begin + 1)->rank && ((lhs_begin + 1) == lhs_end)){
@@ -631,9 +612,7 @@ bool compare_pair(vector<Card<Suit, TexasholdemRank>>::iterator lhs_begin,
 
      while(rhs_begin != rhs_end){
         if(rhs_begin->rank == (rhs_begin + 1)->rank){
-            rhs_pair_high = rhs_begin->rank;
-              // skips next card
-            
+            rhs_pair_high = rhs_begin->rank;            
         }
         else if(rhs_begin->rank != (rhs_begin + 1)->rank && ((rhs_begin + 1) == rhs_end)){
             rhs_cards_without_pair.push_back(*(rhs_begin+1));
@@ -642,7 +621,7 @@ bool compare_pair(vector<Card<Suit, TexasholdemRank>>::iterator lhs_begin,
         {
             rhs_cards_without_pair.push_back(*rhs_begin);
         }
-        rhs_begin ++;
+        rhs_begin++;
     }
 
     if (lhs_pair_high < rhs_pair_high)
@@ -655,7 +634,7 @@ bool compare_pair(vector<Card<Suit, TexasholdemRank>>::iterator lhs_begin,
     }
     else
     {
-        return compare_xhigh(lhs_cards_without_pair_begin, lhs_cards_without_pair_end, rhs_cards_without_pair_begin, rhs_cards_without_pair_end);
+        return compare_xhigh(lhs_cards_without_pair.begin(), lhs_cards_without_pair.end(), rhs_cards_without_pair.begin(), rhs_cards_without_pair.end());
     }
 }
 
@@ -673,39 +652,50 @@ bool compare_twopair(vector<Card<Suit, TexasholdemRank>>::iterator lhs_begin,
     // these vectors includes non-paired cards, so that we may use it to calculate xhigh
     vector<Card<Suit, TexasholdemRank>> lhs_cards_without_pairs;
     vector<Card<Suit, TexasholdemRank>> rhs_cards_without_pairs;
+   
 
-    vector<Card<Suit, TexasholdemRank>>::iterator lhs_cards_without_pair_begin = lhs_cards_without_pairs.begin();
-    vector<Card<Suit, TexasholdemRank>>::iterator lhs_cards_without_pair_end = lhs_cards_without_pairs.end();
-    vector<Card<Suit, TexasholdemRank>>::iterator rhs_cards_without_pair_begin = rhs_cards_without_pairs.begin();
-    vector<Card<Suit, TexasholdemRank>>::iterator rhs_cards_without_pair_end = rhs_cards_without_pairs.end();
-
-
-    while(lhs_begin != lhs_end){
-        if(lhs_begin->rank == (lhs_begin + 1)->rank){
-            if (lhs_pair_first_high == TexasholdemRank::undefined) {
-                  lhs_pair_first_high = lhs_begin->rank;
-            } else {
-                lhs_pair_second_high = lhs_begin->rank;      
-            }
-            lhs_begin += 2;
-        } else {
-            lhs_cards_without_pairs.push_back(*lhs_begin);
+    //Design Implementation : I am using next() here to safely check that next card is not equal to lhs_end. This is applied to rhs cardset as well.
+    while(lhs_begin != lhs_end) {
+  
+    auto next = std::next(lhs_begin);
+    if (next != lhs_end && lhs_begin->rank == next->rank) {
+        // Found a pair
+        if (lhs_pair_first_high == TexasholdemRank::undefined) {
+            lhs_pair_first_high = lhs_begin->rank;
+        } else if (lhs_pair_first_high != lhs_begin->rank && 
+                   lhs_pair_second_high == TexasholdemRank::undefined) {
+            lhs_pair_second_high = lhs_begin->rank;
         }
+        // Skip the next card as it is part of the pair
+        lhs_begin = std::next(next);
+    } else {
+        
+        lhs_cards_without_pairs.push_back(*lhs_begin);
+        ++lhs_begin;
     }
+}
+   
+   while(rhs_begin != rhs_end) {
 
-    while(rhs_begin != rhs_end){
-        if(rhs_begin->rank == (rhs_begin + 1)->rank){
-            if (rhs_pair_first_high == TexasholdemRank::undefined) {
-                  rhs_pair_first_high = rhs_begin->rank;
-            } else {
-                rhs_pair_second_high = rhs_begin->rank;      
-            }
-            rhs_begin += 2;
-        } else {
-            rhs_cards_without_pairs.push_back(*rhs_begin);
+    auto next = std::next(rhs_begin);
+    if (next != rhs_end && rhs_begin->rank == next->rank) {
+        
+        if (rhs_pair_first_high == TexasholdemRank::undefined) {
+            rhs_pair_first_high = rhs_begin->rank;
+        } else if (rhs_pair_first_high != rhs_begin->rank && 
+                   rhs_pair_second_high == TexasholdemRank::undefined) {
+            rhs_pair_second_high = rhs_begin->rank;
         }
+        
+        rhs_begin = std::next(next);
+    } else {
+        
+        rhs_cards_without_pairs.push_back(*rhs_begin);
+        ++rhs_begin;
     }
+}
 
+   
     if (lhs_pair_first_high < rhs_pair_first_high)
     {
         return true;
@@ -715,7 +705,7 @@ bool compare_twopair(vector<Card<Suit, TexasholdemRank>>::iterator lhs_begin,
         if(lhs_pair_second_high < rhs_pair_second_high){
             return true;
         } else if (lhs_pair_second_high == rhs_pair_second_high){
-            return compare_xhigh(lhs_cards_without_pair_begin, lhs_cards_without_pair_end, rhs_cards_without_pair_begin, rhs_cards_without_pair_end); 
+            return compare_xhigh(lhs_cards_without_pairs.begin(), lhs_cards_without_pairs.end(), rhs_cards_without_pairs.begin(), rhs_cards_without_pairs.end()); 
         }
     }
     return false;
@@ -818,7 +808,6 @@ bool compare_fullhouse(vector<Card<Suit, TexasholdemRank>>::iterator lhs_begin,
     //Design Implementation : Given that hand has a full house and is sorted before this function call,
     //we can determine that if the rank of 2nd and 3rd card has different rank, first 2 cards is a pair and last 3 cards are triplet.
     //This also means that if the rank of 2nd and 3rd card has the same rank, first 3 cards is a triplet and last 2 cards are a pair.
-
     if((lhs_begin + 1)->rank == (lhs_begin + 2)->rank){
         lhs_fullhouse_triple_high = lhs_begin->rank;
         lhs_fullhouse_pair_high = (lhs_begin+3)->rank;

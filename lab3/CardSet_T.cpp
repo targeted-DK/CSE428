@@ -20,7 +20,12 @@ template <typename S, typename R>
 typename vector<Card<S, R>>::iterator CardSet<S, R>::end() {
         return this->cards.end();
 }
-//Design Implementation : Each card prints out sequentially with a space inbetween each cards, and breaks a lines after some user input value number of cards are printed.
+
+/** 
+ * prints entire CardSet to the command line
+ * @param os ostream object
+ * @param size 
+ */
 template <typename S, typename R>
 void CardSet<S, R>::print(ostream &os, size_t size)
 {
@@ -42,6 +47,10 @@ void CardSet<S, R>::print(ostream &os, size_t size)
     }
 };
 
+/** 
+ * pops a card from the CardSet
+ * @return Card<S,R>
+ */
 template <typename S, typename R>
 Card<S, R> CardSet<S, R>::pop()
 {
@@ -52,6 +61,11 @@ Card<S, R> CardSet<S, R>::pop()
     return popped_card;
 }
 
+/** 
+ * moves the last card from card_set to the this object's card_set
+ * @param card_set object to get card from
+ * @return CardSet<S,R>
+ */
 template <typename S, typename R>
 CardSet<S, R> &CardSet<S, R>::operator>>(CardSet<S, R> &card_set)
 {
@@ -59,18 +73,27 @@ CardSet<S, R> &CardSet<S, R>::operator>>(CardSet<S, R> &card_set)
     {
         throw runtime_error("Card set is empty");
     }
+    
     card_set.cards.push_back(this->getCards().back());
     this->getCards().pop_back();
 
     return *this;
 }
+
+/** 
+ * get vector of Cards from CardSet
+ * @return a vector of Card<S,R>
+ */
 template <typename S, typename R>
 vector<Card<S, R>> &CardSet<S, R>::getCards()
 {
-
     return this->cards;
 }
 
+/** 
+ * checks if CardSet is empty
+ * @return a boolean value whether the CardSet is empty
+ */
 template <typename S, typename R>
 bool CardSet<S, R>::is_empty()
 {
@@ -78,27 +101,30 @@ bool CardSet<S, R>::is_empty()
     return this->cards.empty();
 }
 
-template <typename S, typename R>
-CardSet<S,R>::CardSet(const CardSet<S,R>& another_cardSet){
-    
-    for (const Card<S, R>& card : another_cardSet.cards) {
-        this->cards.push_back(card);
-    }
-}
 
-
-
+/** 
+ * sorts CardSet by R
+ * @return void
+ */
 template <typename S, typename R>
  void  CardSet<S, R>::sortByRank() {
         std::sort(this->cards.begin(), this->cards.end(), compare_rank<S, R>);
     }
 
+/** 
+ * sorts CardSet by S
+ * @return void
+ */
 template <typename S, typename R>
     void  CardSet<S, R>::sortBySuit() {
         std::sort(this->cards.begin(), this->cards.end(), compare_suit<S, R>);
     }
 
-
+/** 
+ * collects all the cards from given card_set
+ * @param card_set card set to collect cards from
+ * @return void
+ */
 template <typename S, typename R>
 void CardSet<S, R>::collect(CardSet<S, R> &card_set) {
    
@@ -107,6 +133,12 @@ void CardSet<S, R>::collect(CardSet<S, R> &card_set) {
     card_set.cards.clear();
 }
 
+/** 
+ * collects cards based on predicate
+ * @param deck deck to check for cards
+ * @param predicate predicate for checking cards
+ * @return void
+ */
 template <typename S, typename R>
 void CardSet<S, R>::collect_if(CardSet<S,R> &deck, function<bool(Card<S, R>&)> predicate){
 
@@ -123,29 +155,33 @@ void CardSet<S, R>::collect_if(CardSet<S,R> &deck, function<bool(Card<S, R>&)> p
     deck.getCards().erase(past_end_pointer, deck.end());
 }
 
+/** 
+ * requests a card of rank R from another player
+ * @param another_card_set another player's cardset
+ * @param rank rank of requested card
+ * @return a boolean value whether the card is successfully transferred from another player to current player
+ */
 template <typename S, typename R>
 bool CardSet<S, R>::request(CardSet<S,R> &another_card_set, R rank){
 
-    //#12.The method should use the std::find function to find a card in the provided CardSet matching the provided rank.
-    //Design Implementation : find() checks if provided parameter R rank exactly matches with a value being compared but this should not work because CardSet has Cards of <S,R>.
-    //so instead, I am using find_if, to which I can provide rank as a predicate to check if each Card in CardSet has same rank
-    auto card_found = find_if(another_card_set.begin(), another_card_set.end(), 
-                          [rank](const Card<S, R>& card) { return card.rank == rank; });
 
-
-  
-    if(card_found != another_card_set.end()){
-        while(card_found != another_card_set.end()){
-            if(card_found->rank == rank){
-                this->cards.push_back(move(*(card_found)));
-                another_card_set.cards.erase(card_found);
-                return true;
-            }
-            card_found++;
+    bool isCardFound = false;
+    auto it = another_card_set.cards.begin();
+    while (it != another_card_set.cards.end()) {
+      
+        if (it->rank == rank) {
+           
+            this->cards.push_back(std::move(*it));
+           
+            another_card_set.cards.erase(it);
+            isCardFound = true;
+            break;
+        } else {
+            
+            ++it;
         }
     }
-
-    return false;
+    return isCardFound;
 }
 
 

@@ -16,6 +16,7 @@ class TexasholdemGame : public Game{
 
     public :
         TexasholdemGame(int argc, const char *argv[]);
+        virtual ~TexasholdemGame();
         virtual int play();
 
         //#16. Add a nested struct to your HoldEmGame class 
@@ -50,12 +51,12 @@ class TexasholdemGame : public Game{
          HoldEmHandRank holdem_hand_evaluation(const CardSet<Suit, TexasholdemRank>& holdem_player_hand);
          HoldEmHandRank isUndefined(const vector<Card <Suit, TexasholdemRank> >& cards);
          HoldEmHandRank isStraight(const vector<Card <Suit, TexasholdemRank> >& cards);
-         HoldEmHandRank isFlush(const vector<Card<Suit, TexasholdemRank>>& cards);
-         HoldEmHandRank isFourOfAKind(const vector<Card<Suit, TexasholdemRank>>& cards);
-         HoldEmHandRank isFullHouse(const vector<Card<Suit, TexasholdemRank>>& cards);
-         HoldEmHandRank isThreeOfAKind(const vector<Card<Suit, TexasholdemRank>>& cards);
-         HoldEmHandRank isTwoPair(const vector<Card<Suit, TexasholdemRank>>& cards);
-         HoldEmHandRank isPair(const vector<Card<Suit, TexasholdemRank>>& cards);
+         HoldEmHandRank isFlush(const vector<Card<Suit, TexasholdemRank> >& cards);
+         HoldEmHandRank isFourOfAKind(const vector<Card<Suit, TexasholdemRank> >& cards);
+         HoldEmHandRank isFullHouse(const vector<Card<Suit, TexasholdemRank> >& cards);
+         HoldEmHandRank isThreeOfAKind(const vector<Card<Suit, TexasholdemRank> >& cards);
+         HoldEmHandRank isTwoPair(const vector<Card<Suit, TexasholdemRank> >& cards);
+         HoldEmHandRank isPair(const vector<Card<Suit, TexasholdemRank> >& cards);
         
 };
 

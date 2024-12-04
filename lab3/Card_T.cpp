@@ -5,6 +5,7 @@
 #include <iostream>
 
 
+
 //Design Implementation : Card's suit and rank are printed next to each other, without any spaces, for readibility.
 template<typename S, typename R>
 ostream& operator<<(ostream& os, const Card<S, R>& card){

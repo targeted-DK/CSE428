@@ -9,3 +9,21 @@
 // Texasholdem is a class for me that inherits Deck. Is this HoldEmDeck as described?
 
 2. does go fish game inherits deck class?
+
+
+1. acessing this->go_fish_game_deck variables
+
+2. issues with cardset
+./GoFishGame_T.cpp:107:46: error: non-const lvalue reference to type 'CardSet<Suit, PinochleRank>' cannot bind to a value of unrelated type 'std::vector<Card<Suit, PinochleRank>>'
+                this->books.at(i).collect_if(player_card_set.getCards(), predicate);
+
+
+3. structure of code
+
+4. ./GoFishGame_T.cpp:130:18: error: invalid operands to binary expression ('ostream' (aka 'basic_ostream<char>') and 'value_type' (aka 'CardSet<Color, UnoRank>'))
+            cout << this->player_hands.at(cur_player_num) << endl;
+
+uses of functions of different templates?
+
+
+hand over a single card or all cards of same rank when asked?

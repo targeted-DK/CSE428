@@ -15,6 +15,7 @@ class PinochleGame : public Game{
 
     public :
         PinochleGame(int argc, const char *argv[]);
+        virtual ~PinochleGame(); 
         virtual int play();
         
         //#10. declare and initialize a public static member variable of the PinochleGame class
@@ -26,6 +27,8 @@ class PinochleGame : public Game{
         Pinochle pino_deck;
         std::vector< CardSet<Suit, PinochleRank> > hands;
         virtual void deal(); 
+        //need virtual destructor for class if you have any virtual functions
+        
         void printPlayerHands();
         void collectPlayerCards();
 

@@ -8,15 +8,14 @@ using namespace std;
 
 
    Pinochle::Pinochle(){
-
      for(Suit i = Suit::clubs; i < Suit::undefined; ++i){
            for(PinochleRank j = PinochleRank::nine; j < PinochleRank::undefined; ++j){
-              
                 cards.push_back(Card<Suit, PinochleRank>(i,j));
                 cards.push_back(Card<Suit, PinochleRank>(i,j));
-             
+
            }
         }
+        
    };
 
 

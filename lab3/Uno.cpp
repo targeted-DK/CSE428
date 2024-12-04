@@ -14,36 +14,35 @@ using namespace std;
 
 Uno::Uno()
 {
-    
-    //#15. one red, one blue, one green, and one yellow card of rank zero;
-    for (suit_type uno_color = suit_type::red; uno_color < suit_type::undefined; ++uno_color)
+
+    // #15. one red, one blue, one green, and one yellow card of rank zero;
+    for (Color uno_color = Color::red; uno_color < Color::black; ++uno_color)
     {
+
         this->cards.push_back(Card<Color, UnoRank>(uno_color, UnoRank::zero));
-        
     }
 
-    //#15. two red, two blue, two green, and two yellow cards of each rank one through drawtwo;
+    // #15. two red, two blue, two green, and two yellow cards of each rank one through drawtwo;
     for (int i = START_COUNTER; i < ADD_TWO_CARDS; i++)
     {
-        for (suit_type uno_color = suit_type::red; uno_color < suit_type::undefined;  ++uno_color)
+        for (Color uno_color = Color::red; uno_color < Color::black; ++uno_color)
         {
-            for (rank_type uno_rank = UnoRank::one; uno_rank < rank_type::drawfour;  ++uno_rank)
+            for (UnoRank uno_rank = UnoRank::one; uno_rank < UnoRank::drawfour; ++uno_rank)
             {
-                this->cards.push_back(Card<Color, UnoRank>(uno_color, UnoRank::zero));
-               
+
+                this->cards.push_back(Card<Color, UnoRank>(uno_color, uno_rank));
             }
-           
         }
     }
 
-    //#15. four black cards of each rank drawfour through blank.
+    // #15. four black cards of each rank drawfour through blank.
     for (int i = START_COUNTER; i < ADD_FOUR_CARDS; i++)
     {
-        suit_type uno_color = Color::black;
-        for (rank_type uno_rank = UnoRank::drawfour; uno_rank < rank_type::undefined; ++uno_rank)
+        Color uno_color = Color::black;
+        for (UnoRank uno_rank = UnoRank::drawfour; uno_rank < UnoRank::undefined; ++uno_rank)
         {
+
             this->cards.push_back(Card<Color, UnoRank>(uno_color, uno_rank));
-            
         }
     }
 }
@@ -146,7 +145,7 @@ ostream &operator<<(ostream &os, const UnoRank &unoRank)
         os << "9";
         break;
     case UnoRank::skip:
-        os << "10";
+        os << "S";
         break;
     case UnoRank::reverse:
         os << "R";

@@ -13,7 +13,7 @@ using namespace std;
 template <typename S, typename R>
 void Deck<S, R>::shuffle()
 {
-
+    
     // https://stackoverflow.com/questions/38367976/do-stdrandom-device-and-stdmt19937-follow-an-uniform-distribution
     random_device rd;
     mt19937 g(rd());

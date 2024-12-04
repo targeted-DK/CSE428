@@ -22,7 +22,6 @@ public:
 
     
     CardSet() = default;
-    CardSet(const CardSet<S,R>& another_cardSet);
 
     //#7. Replace an accessor:
     typename std::vector<Card<S, R>>::iterator begin();

@@ -35,6 +35,11 @@ PinochleGame::PinochleGame(int argc, const char *argv[]) : Game(argc, argv)
     }
 }
 
+
+PinochleGame::~PinochleGame() 
+{}
+
+
 void PinochleGame::deal()
 {
 
@@ -71,7 +76,7 @@ void PinochleGame::deal()
 int PinochleGame::play()
 {
     int user_input_result = PLAY_AGAIN;
-
+    
     while (user_input_result == PLAY_AGAIN)
     {
         cout << endl;
@@ -98,6 +103,7 @@ int PinochleGame::play()
 
         user_input_result = this->askIfDone();
     }
+    
 
     return user_input_result;
 };
